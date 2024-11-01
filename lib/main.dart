@@ -26,9 +26,9 @@ class HomePage extends StatefulWidget {
 
   HomePage() {
     items = [];
-    items.add(Item(title: "Item 1", done: false));
-    items.add(Item(title: "Item 2", done: true));
-    items.add(Item(title: "Item 3", done: false));
+    // items.add(Item(title: "Item 1", done: false));
+    // items.add(Item(title: "Item 2", done: true));
+    // items.add(Item(title: "Item 3", done: false));
   }
   @override
   _HomePageState createState() => _HomePageState();
@@ -50,6 +50,14 @@ class _HomePageState extends State<HomePage> {
       newTaskCtrl.text = "";
     });
   }
+
+  void remove(int index) {
+    setState(() {
+      widget.items.removeAt(index);
+    });
+  }
+
+  load() async {}
 
  @override
  Widget build(BuildContext context) {
@@ -78,15 +86,23 @@ class _HomePageState extends State<HomePage> {
       itemCount: widget.items.length,  
       itemBuilder: (BuildContext ctxt, int index) {
         final item = widget.items[index];
-        return CheckboxListTile(
-          title: Text(item.title),
-          key: Key(item.title),
-          value: item.done, 
-          onChanged: (value) {
-            setState(() {
-              item.done = value;
-            });
-          },
+        return Dismissible(
+          child: CheckboxListTile(
+                    title: Text(item.title),
+                    value: item.done, 
+                    onChanged: (value) {
+                      setState(() {
+                        item.done = value;
+                      });
+                    },
+                  ),
+                  key: Key(item.title),
+                  background: Container(
+                    color: Colors.red.withOpacity(0.2),
+                  ),
+                  onDismissed: (direction) {
+                    remove(index);
+                  },
         );
       },
     ),floatingActionButton: FloatingActionButton(
