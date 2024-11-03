@@ -83,6 +83,14 @@ class _HomePageState extends State<HomePage> {
     await prefs.setString('data', jsonEncode(widget.items));
   }
 
+  void remove(int index) {
+    setState(() {
+      widget.items.removeAt(index);
+    });
+  }
+
+  load() async {}
+
  @override
  Widget build(BuildContext context) {
   return Scaffold(
@@ -110,23 +118,14 @@ class _HomePageState extends State<HomePage> {
       itemCount: widget.items.length,  
       itemBuilder: (BuildContext ctxt, int index) {
         final item = widget.items[index];
-        return Dismissible(
-          child: CheckboxListTile(
-            title: Text(item.title),
-            value: item.done, 
-            onChanged: (value) {
-              setState(() {
-                item.done = value;
-                save();
-              });
-            },
-          ),
+        return CheckboxListTile(
+          title: Text(item.title),
           key: Key(item.title),
-          background: Container(
-            color: Colors.red.withOpacity(0.2),
-          ),
-          onDismissed: (direction) {
-            remove(index);
+          value: item.done, 
+          onChanged: (value) {
+            setState(() {
+              item.done = value;
+            });
           },
         );
       },
