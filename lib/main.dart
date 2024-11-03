@@ -83,13 +83,6 @@ class _HomePageState extends State<HomePage> {
     await prefs.setString('data', jsonEncode(widget.items));
   }
 
-  void remove(int index) {
-    setState(() {
-      widget.items.removeAt(index);
-    });
-  }
-
-  load() async {}
 
  @override
  Widget build(BuildContext context) {
